@@ -1,0 +1,9 @@
+---
+title: "Analysis of the Variance of Multiple Sample Means"
+author: "Graham King"
+date: "7 January 2015"
+output: html_document
+---
+
+Overview
+========

@@ -1,0 +1,8 @@
+library(ggplot2)
+r <- rnorm(1000)
+d <- data.frame(v=r)
+g <- ggplot(data=d, aes(x=v))
+g <- g + geom_contour(stat="bin", binwidth=0.5)
+g <- g + geom_vline(xintercept=0, colour="red")
+g <- g + geom_vline(xintercept=mean(r), colour="blue")
+print(g)
