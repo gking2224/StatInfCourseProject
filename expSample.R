@@ -25,14 +25,12 @@ g1  <- ggplot(
             paste0("Sample Variance (", round(s2, 3), ")")),
         x = c(mu, xbar, sigma2, s2),
         y = c(0.1, 0.05, 0.05, 0.03),
-        hjust = -c(
-            0.04, -1.04,
-            0.04,
-            -1.04),
+        hjust = c(-0.06, 1.06, -0.06, 1.06),
         colour = c("red", "blue", "green4", "gold4")) +
     ggtitle(paste(
         "Figure 1: Density of", length(sample),
         "rexp variables (lambda=", lambda, ")")) +
+    labs(y = "Density") +
     theme(plot.title = element_text(size = rel(2)))
 
 print(g1)

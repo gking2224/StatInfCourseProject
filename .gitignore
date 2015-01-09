@@ -1,6 +1,7 @@
 .Rproj.user
 *.html
-
 .RData
-
 .Rhistory
+figure
+*.md
+*.pdf

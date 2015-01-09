@@ -3,6 +3,7 @@ title: "Analysis of the Variance of Multiple Sample Means"
 author: "Graham King"
 date: "7 January 2015"
 output:
+  html_document: default
   pdf_document: default
 ---
 ```{r opts, echo = FALSE}
@@ -15,8 +16,6 @@ s <- 40
 ```
 
 ### Overview
-
-$\mu$
 The objective of this analysis is to look at the variance and standard error of a simulation of numbers drawn at random from the exponential distribution. This distribution has a number of known properties of the theoretical total population, which this analysis will compare with a sample of simulated data, drawn at random from that distribution.
 
 The exponential distribution is defined by a 'rate parameter', known as 'lambda' (<math display="inline"><mo>LAMBDA</mo></math>). This analysis will use a lambda value of `r lambda`.
@@ -45,7 +44,7 @@ sxbar | <math display="inline"><msub><mi>s</mi><mover><mi>x</mi><mo>OVERBAR</mo>
 
 ### Simulation
 First I will set the rate parameter and the distribution's theoretical statistics:
-```{r intro}
+```{r intro, echo = FALSE}
 lambda <- 0.2
 mu <- 1 / lambda
 sigma <- 1 / lambda
@@ -54,14 +53,18 @@ sigma2 <- sigma^2
 n <- 40             # size of each simulation
 numsims <- 1000     # number of simulations
 sem <- sigma / sqrt(n)
-
-print(data.frame(mean = mu, sd = sigma, variance = sigma2, sem = sem))
+```
+```{r introOutput, echo=FALSE}
+d <- data.frame(mu = mu, sigma = sigma, sigma2 = sigma2, sem = sem)
+m <- matrix(
+    d, ncol=1, dimnames=list(colnames(d), c("value")))
+print(m)
 
 ```
 
-### Single Sample
+### Distribution of Sample
 Here I take a random sample of `r n * numsims` variables from the exponential distribution. These same values will split later into groups of `r n` for multiple sample means to be taken, but here I plot all the distribution of all of the sampled values.
-```{r expSample}
+```{r expSample, echo = FALSE}
 set.seed(20150109)
 
 sample <- rexp(n * numsims, lambda)
@@ -97,6 +100,7 @@ g1  <- ggplot(
     ggtitle(paste(
         "Figure 1: Density of", length(sample),
         "rexp variables (lambda=", lambda, ")")) +
+    labs(y = "Density") +
     theme(plot.title = element_text(size = rel(2)))
 
 print(g1)
@@ -106,7 +110,7 @@ Figure 1 demonstrates that the mean of this sample (`r xbar`) is very close to t
 
 ### Distribution of Sample Means
 I next split this sample of `r 40000` into `r numsims` groups of `r n` (n) and take the mean of each sample. I then plot the distribution of these sample means and compare its standard deviation with the population 'standard error of the mean' (sem); and also its mean with the population theoretical mean.
-```{r means}
+```{r means, echo = FALSE}
 smp.means <- apply(matrix(sample, numsims), 1, mean)
 
 muxbar <- sum(smp.means) / numsims # mean(smp.means)
@@ -126,25 +130,23 @@ g2 <- ggplot(data = data.frame(x = smp.means), aes(x = x)) +
         lty = c(1, 2, 1, 1, 2, 2)) +
     annotate(
         "text",
-        size = 4,
+        size = 5,
         alpha = 0.8,
         x = c(
             mu, muxbar, mu - sem,
             muxbar + sxbar),
         y = c(0.2, 0.3, 0.5, 0.1),
-        hjust = c(
-            -0.06, 1.06,
-            1.06,
-            1.06),
+        hjust = c(-0.06, 1.06, -0.06, 1.06),
         colour = c("red", "blue", "green4", "gold4"),
         label = c(
             paste0("Population\nMean (", mu, ")"),
             paste0("Mean of Sample\nMeans (", round(muxbar,3), ")"),
-            paste0("Standard Error of\nthe Mean\n(+/- ", round(sem,3), ")"),
-            paste0("Standard\nDeviation of\nSample Means\n(+/- ", round(sxbar,3),")")))+
+            paste0("SEM\n(+/- ", round(sem,3), ")"),
+            paste0("SD of\nSample Means\n(+/- ", round(sxbar,3),")")))+
     ggtitle(paste(
         "Figure 2: Distribution of the means of", numsims, "samples of", n,
         "\nrexp distribution variables (lambda=", lambda, ")")) +
+    labs(y = "Density") +
     theme(plot.title = element_text(size = rel(2)))
 
 print(g2)
