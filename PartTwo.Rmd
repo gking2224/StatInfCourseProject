@@ -1,0 +1,84 @@
+---
+title: "Exploratory Analysis of the ToothGrowth dataset"
+author: "Graham King"
+date: "9 January 2015"
+output: html_document
+---
+```{r opts, echo=FALSE}
+library(knitr)
+opts_chunk$set(comment=NA, fig.width=12, fig.height=6)
+```
+Overview
+========
+From the ToothGrowth help page (in datasets package):
+
+> The response is the length of odontoblasts (teeth) in each of 10 guinea pigs at each of three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods (orange juice or ascorbic acid).
+
+```{r}
+library(datasets)
+data(ToothGrowth)
+str(ToothGrowth)
+```
+From this I can see that tooth length is a continuous variable named `len`; delivery method is a factor variable named `supp` with levels `OJ` and `VC`; and the dose level is a numeric variable named `dose`. Given that dose represents three dose levels, this would be better as a factor:
+
+```{r}
+ToothGrowth$dose <- factor(ToothGrowth$dose)
+print(head(ToothGrowth))
+
+```
+It should be noted that the ten subjects are not identified in the dataset.
+
+The `supp` variable represents two delivery methods of Vitamin C, being orange juice and asorbic acide. However the levels are named 'OJ' and 'VC'. Presumably VC represents Ascorbic Acid. For clarity, I will rename it accordingly.
+
+```{r}
+levels(ToothGrowth$supp) <- c("Orange Juice", "Ascorbic Acid")
+```
+
+```{r}
+library(ggplot2)
+g1 <- ggplot(data=ToothGrowth, aes(x = len, fill=supp)) +
+    geom_density(alpha=0.2) +
+    labs(x="Length", y="Density") +
+    guides(fill = guide_legend(title="Supplement")) +
+    ggtitle("Figure 1: Distribution of tooth length by Supplement") +
+    theme(plot.title = element_text(size = rel(1.5)))
+print(g1)
+
+oj <- subset(ToothGrowth, supp==levels(ToothGrowth$supp)[1])
+vc <- subset(ToothGrowth, supp==levels(ToothGrowth$supp)[2])
+g2 <- ggplot(
+    data = data.frame(
+        stats = matrix(c(mean(oj$len), var(oj$len), mean(vc$len), var(vc$len)), nrow=4),
+        stat = factor(rep(c("mean", "variance"), times=2)),
+        supp = factor(rep(levels(ToothGrowth$supp), c(2,2)))),
+    aes(x=supp, y=stats, fill=stat)) +
+    geom_bar(stat="identity", alpha=0.8, position="dodge") +
+    labs(x="Supplement", y="Value") +
+    guides(fill = guide_legend(title="Statistic")) +
+    ggtitle("Figure 2: Mean and variance of tooth length by supplement") +
+    theme(plot.title = element_text(size = rel(1.5)))
+print(g2)
+```
+Figure 1 shows that tooth length is greater with the Orange Juice supplement than with the VC supplement.
+
+Figure 2 also shows with a lower mean in the Ascorbic Acid subset, although it has a greater variance.
+
+```{r}
+g3 <- ggplot(data=ToothGrowth, aes(x = len, fill = dose)) +
+    geom_density(alpha = 0.2) +
+    labs(x="Tooth length", y="Density") +
+    guides(fill = guide_legend(title="Dose (mg)")) +
+    ggtitle("Figure 3: Distribution of tooth length by Dose") +
+    theme(plot.title = element_text(size = rel(1.5)))
+print(g3)
+
+g4 <- ggplot(data=ToothGrowth, aes(x = len, fill=dose)) +
+    geom_density(alpha = 0.2) +
+    facet_grid(. ~ supp) +
+    labs(x="Tooth length", y="Density") +
+    guides(fill = guide_legend(title="Dose (mg)")) +
+    ggtitle("Figure 4: Distribution of tooth length by Dose and Supplement") +
+    theme(plot.title = element_text(size = rel(1.5)))
+print(g4)
+
+```

@@ -1,54 +1,41 @@
+smp.means <- apply(matrix(sample, numsims), 1, mean)
 
-set.seed(20150111)
+muxbar <- sum(smp.means) / numsims # mean(smp.means)
+s2xbar <- sum( (smp.means - muxbar)^2 ) / (numsims - 1) # var(smp.means)
+sxbar <- sqrt(s2xbar)
 
-plot.sample.means <- function(s, n, lambda) {
-    pop.mean <- 1 / lambda
-    pop.sd <- 1 / lambda
-    pop.variance <- pop.sd^2
-    
-    mns <- NULL
-    for (i in 1:n) {
-        mns <- c(mns, mean(rexp(s, lambda)))
-    }
-    
-    m.mns <- mean(mns)
-    variance <- var(mns)
-    
-    g <- ggplot(data=data.frame(x=mns), aes(x=x))
-    g <- g + geom_density(alpha=0.2, size=2, fill="red")
-    g <- g + geom_vline(
-        size=2, alpha=0.5,
+g2 <- ggplot(data = data.frame(x = smp.means), aes(x = x)) +
+    geom_density(alpha = 0.2, size = 2, fill = "red") +
+    geom_vline(
+        size = 2, alpha = 0.5,
         xintercept = c(
-            pop.mean,
-            m.mns,
-            m.mns - (c(1,-1)*variance)),
-        colour = c("red", "blue", "gold4", "gold4"),
-        lty=c(1, 2, 2, 2))
-    g <- g + annotate(
+            mu,
+            muxbar,
+            mu + c(1,-1)*sem,
+            muxbar + c(1,-1)*sxbar),
+        colour = c("red", "blue", "green4", "green4", "gold4", "gold4"),
+        lty = c(1, 2, 1, 1, 2, 2)) +
+    annotate(
         "text",
+        size = 5,
         alpha = 0.8,
-        x = c(pop.mean, m.mns, m.mns + variance),
-        y = c(0.15, 0.1, 0.05),
-        hjust=c(
-            -0.02, 1.02,
-            ifelse(m.mns + variance > max(mns)*.8, 1.02, -0.02)),
-        colour=c("red", "blue", "gold4"),
+        x = c(
+            mu, muxbar, mu - sem,
+            muxbar + sxbar),
+        y = c(0.2, 0.3, 0.5, 0.1),
+        hjust = c(
+            -0.04, 1.04,
+            1.04,
+            1.04),
+        colour = c("red", "blue", "green4", "gold4"),
         label = c(
-            paste0("Population Mean (", pop.mean, ")"),
-            paste0("Mean of Sample Means (", round(m.mns,3), ")"),
-            paste0("Variance (+/-", round(variance, 3),")" )))
-    g <- g + ggtitle(paste(
-        "Distribution of the means of", n, "samples of", s,
-        "\nrexp distribution variables (lambda=", lambda, ")"))
-    g <- g + theme(plot.title = element_text(size = rel(2)))
-    
-    print(paste("population mean:", round(pop.mean, 3)))
-    print(paste("mean of sample means:", round(m.mns, 3)))
-    
-    print(paste("population variance:", round(pop.variance, 3)))
-    print(paste("sample means variance:", round(variance, 10)))
-    
-    return(g)
-}
+            paste0("Population\nMean (", mu, ")"),
+            paste0("Mean of Sample\nMeans (", round(muxbar,3), ")"),
+            paste0("Standard Error of\nthe Mean\n(+/- ", round(sem,3), ")"),
+            paste0("Standard Deviation\nof Sample Means\n(+/- ", round(sxbar,3),")")))+
+    ggtitle(paste(
+        "Figure 2: Distribution of the means of", numsims, "samples of", n,
+        "\nrexp distribution variables (lambda=", lambda, ")")) +
+    theme(plot.title = element_text(size = rel(2)))
 
-print(plot.sample.means(s = 40, n = 1000, lambda = 0.2))
+print(g2)
