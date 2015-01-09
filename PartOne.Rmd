@@ -3,7 +3,7 @@ title: "Analysis of the Variance of Multiple Sample Means"
 author: "Graham King"
 date: "7 January 2015"
 output:
-  pdf_document: default
+  html_document: default
 ---
 ```{r opts, echo = FALSE}
 library(knitr)
@@ -16,31 +16,30 @@ s <- 40
 
 ### Overview
 
-$\mu$
 The objective of this analysis is to look at the variance and standard error of a simulation of numbers drawn at random from the exponential distribution. This distribution has a number of known properties of the theoretical total population, which this analysis will compare with a sample of simulated data, drawn at random from that distribution.
 
-The exponential distribution is defined by a 'rate parameter', known as 'lambda' (<math display="inline"><mo>LAMBDA</mo></math>). This analysis will use a lambda value of `r lambda`.
+The exponential distribution is defined by a 'rate parameter', known as 'lambda' (<math display="inline"><mo>&lambda;</mo></math>). This analysis will use a lambda value of `r lambda`.
 
 It has a mean, or 'mu' (<math display="inline"><mo>&mu;</mo></math>), of <math display="inline"><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></math>.
 
-Its standard deviation, or 'sigma' (<math display="inline"><mo>SIGMA</mo></math>), is also <math display="inline"><mrow><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>LAMBDA</mo></mrow></mfrac></math>, meaning its variance (<math display="inline"><msup><mo>SIGMA</mo><mn>2</mn></msup></math>) is <math display="inline"><msup><mfenced><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>LAMBDA</mo></mrow></mfrac></mfenced><mn>2</mn></msup></math>.
+Its standard deviation, or 'sigma' (<math display="inline"><mo>&sigma;</mo></math>), is also <math display="inline"><mrow><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></math>, meaning its variance (<math display="inline"><msup><mo>&sigma;</mo><mn>2</mn></msup></math>) is <math display="inline"><msup><mfenced><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></mfenced><mn>2</mn></msup></math>.
 
-Finally its standard error of the mean, or 'SEM' (<math display="inline"><msub><mo>SIGMA</mo><mover><mi>x</mi><mo>OVERBAR</mo></mover></msub></math>), is <math display="inline"><mfrac bevelled="true"><mrow><mo>SIGMA</mo></mrow><mrow><msqrt><mi>n</mi></msqrt></mrow></mfrac></math>, meaning that a distribution of the means of a number of samples of size *n* should have this standard distribution.
+Finally its standard error of the mean, or 'SEM' (<math display="inline"><msub><mo>&sigma;</mo><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></math>), is <math display="inline"><mfrac bevelled="true"><mrow><mo>&sigma;</mo></mrow><mrow><msqrt><mi>n</mi></msqrt></mrow></mfrac></math>, meaning that a distribution of the means of a number of samples of size *n* should have this standard distribution.
 
 Below is a table of the variables used in this analysis, with their associated mathematical symbols and a description of what it represents:
 
 Variable Name | Mathematical Symbol | Description
 ------------- | ------------------- | -----------
-lambda | <math display="inline"><mo>LAMBDA</mo></math> | rate parameter of the exponential distribution
-mu | <math display="inline"><mo>MU</mo></math> | population mean
-sigma | <math display="inline"><mo>SIGMA</mo></math> | population standard deviation
-sigma2 | <math display="inline"><msup><mo>SIGMA</mo><mn>2</mn></msup></math> | population variance
-sem | <math display="inline"><msub><mo>SIGMA</mo><mover><mi>x</mi><mo>OVERBAR</mo></mover></msub></math> | standard error of the mean
-xbar | <math display="inline"><mover><mi>x</mi><mo>OVERBAR</mo></mover></math> | sample mean
+lambda | <math display="inline"><mo>&lambda;</mo></math> | rate parameter of the exponential distribution
+mu | <math display="inline"><mo>&mu;</mo></math> | population mean
+sigma | <math display="inline"><mo>&sigma;</mo></math> | population standard deviation
+sigma2 | <math display="inline"><msup><mo>&sigma;</mo><mn>2</mn></msup></math> | population variance
+sem | <math display="inline"><msub><mo>&sigma;</mo><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></math> | standard error of the mean
+xbar | <math display="inline"><mover><mi>x</mi><mo>&OverBar;</mo></mover></math> | sample mean
 s2 | <math display="inline"><msup><mi>s</mi><mn>2</mn></msup></math> | sample variance
-muxbar | <math display="inline"><msub><mo>MU</mo><mover><mi>x</mi><mo>OVERBAR</mo></mover></msub></math> | mean of sample means
-s2xbar | <math display="inline"><msubsup><mi>s</mi><mover><mi>x</mi><mo>OVERBAR</mo></mover><mn>2</mn></msubsup></math> | variance of sample means 
-sxbar | <math display="inline"><msub><mi>s</mi><mover><mi>x</mi><mo>OVERBAR</mo></mover></msub></math> | standard deviation of sample means 
+muxbar | <math display="inline"><msub><mo>&mu;</mo><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></math> | mean of sample means
+s2xbar | <math display="inline"><msubsup><mi>s</mi><mover><mi>x</mi><mo>&OverBar;</mo></mover><mn>2</mn></msubsup></math> | variance of sample means 
+sxbar | <math display="inline"><msub><mi>s</mi><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></math> | standard deviation of sample means 
 
 
 ### Simulation
