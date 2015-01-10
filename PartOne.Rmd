@@ -1,7 +1,7 @@
 ---
-title: "Analysis of the Variance of Multiple Sample Means"
+title: "Analysis of the Statistical Properties of the Exponential Distribution"
 author: "Graham King"
-date: "7 January 2015"
+date: "10 January 2015"
 output:
   html_document: default
 ---
@@ -9,15 +9,19 @@ output:
 library(knitr)
 library(markdown)
 opts_chunk$set(comment = NA, fig.width = 12, fig.height = 6)
-options(encoding = "UTF-8", scipen = 999)
-lambda <- 0.2
-s <- 40
+options(scipen = 999)
+read_chunk("intro.R")
+read_chunk("expSample.R")
+read_chunk("expSampleMeans.R")
 ```
 
-### Summary
+### Overview
 The objective of this analysis is to look at the mean, variance and standard error of a simulation of numbers drawn at random from the exponential distribution. This distribution has a number of known properties of the theoretical total population, and this analysis will show that the above statistical properties of the sample dataset are close to the expected values as predicted by the theoretical population's properties.
 
 ### Introduction
+```{r intro, echo = FALSE, eval = TRUE}
+<<intro>>
+```
 The exponential distribution is defined by a 'rate parameter', known as 'lambda' (<math display="inline"><mo>&lambda;</mo></math>). It has a mean of <math display="inline"><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></math> and its standard deviation is also <math display="inline"><mrow><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></math>, meaning its variance is <math display="inline"><msup><mfenced><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></mfenced><mn>2</mn></msup></math>. Finally its standard error of the mean, or 'SEM', is <math display="inline"><mfrac bevelled="true"><mrow><mo>&sigma;</mo></mrow><mrow><msqrt><mi>n</mi></msqrt></mrow></mfrac></math>, meaning that a distribution of the means of a number of samples of size *n* should have this standard distribution.
 
 Below is a table of the variables used in this analysis, with their associated mathematical symbols, a description of what it represents and how they are calculated.:
@@ -29,125 +33,52 @@ mu | <math display="inline"><mo>&mu;</mo></math> | population mean | <math displ
 sigma | <math display="inline"><mo>&sigma;</mo></math> | population standard deviation | <math display="inline"><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></math>
 sigma2 | <math display="inline"><msup><mo>&sigma;</mo><mn mathsize="small">2</mn></msup></math> | population variance | <math display="inline"><msup><mfenced><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></mfenced><mn>2</mn></msup></math>
 sem | <math display="inline"><msub><mo>&sigma;</mo><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></math> | standard error of the mean (SEM) | <math display="inline"><mfrac bevelled="true"><mrow><mo>&sigma;</mo></mrow><mrow><msqrt><mi>n</mi></msqrt></mrow></mfrac></math>
-xbar | <math display="inline"><mover><mi>x</mi><mo>&OverBar;</mo></mover></math> | sample mean | <math display="inline"><mfrac><mrow><mn>1</mn></mrow><mrow><mi>n</mi></mrow></mfrac><mrow><munderover><mo>&Sigma;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>x</mi><mi>i</mi></msub></mrow><mspace linebreak="newline" /><mtext mathsize="small">(where x represents the sampled values)</mtext></math>
+xbar | <math display="inline"><mover><mi>x</mi><mo>&OverBar;</mo></mover></math> | sample mean | <math display="inline"><mfrac><mrow><mn>1</mn></mrow><mrow><mi>n</mi></mrow></mfrac><mrow><munderover><mo>&Sigma;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>x</mi><mi>i</mi></msub></mrow><mspace linebreak="newline" /><mtext mathsize="small">(where x is the sampled values)</mtext></math>
 s2 | <math display="inline"><msup><mi>s</mi><mn mathsize="small">2</mn></msup></math> | sample variance | <math display="inline"><mfrac><mrow><mn>1</mn></mrow><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></mfrac><mrow><munderover><mo>&Sigma;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msup><mfenced><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>-</mo><mover><mi>x</mi><mo>&OverBar;</mo></mover></mrow></mfenced><mn>2</mn></msup></mrow></math>
 muxbar | <math display="inline"><msub><mo>&mu;</mo><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></math> | mean of sample means | <math display="inline"><mfrac><mrow><mn>1</mn></mrow><mrow><mi>s</mi></mrow></mfrac><mrow><munderover><mo>&Sigma;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>s</mi></munderover><msub><mover><mi>x</mi><mo>&OverBar;</mo></mover><mi>i</mi></msub></mrow><mspace linebreak="newline" /><mtext mathsize="small">(where s is the number of simulations)</mtext></math>
 s2xbar | <math display="inline"><msubsup><mi>s</mi><mover><mi>x</mi><mo>&OverBar;</mo></mover><mn mathsize="small">2</mn></msubsup></math> | variance of sample means | <math display="inline"><mfrac><mrow><mn>1</mn></mrow><mrow><mi>s</mi><mo>-</mo><mn>1</mn></mrow></mfrac><mrow><munderover><mo>&Sigma;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>s</mi></munderover><msup><mfenced><mrow><msub><mover><mi>x</mi><mo>&OverBar;</mo></mover><mi>i</mi></msub><mo>-</mo><msub><mo>&mu;</mo><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></mrow></mfenced><mn>2</mn></msup></mrow><mspace linebreak="newline" /><mtext mathsize="small">(where s is the number of simulations)</mtext></math>
 sxbar | <math display="inline"><msub><mi>s</mi><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></math> | standard deviation of sample means | <math display="inline"><msqrt><msubsup><mi>s</mi><mover><mi>x</mi><mo>&OverBar;</mo></mover><mn mathsize="small">2</mn></msubsup></msqrt></math>
 
-With lambda of 0.2, the distribution's theoretical statistics are:
-```{r intro, echo = FALSE}
-lambda <- 0.2
-mu <- 1 / lambda
-sigma <- 1 / lambda
-sigma2 <- sigma^2
+With lambda of `r lambda`, the distribution's theoretical statistics are:
 
-n <- 40             # size of each simulation
-numsims <- 1000     # number of simulations
-sem <- sigma / sqrt(n)
-```
-```{r intro2, echo=FALSE}
-dd <- data.frame(
-    stat = c("lambda", "mu", "sigma", "sigma2", "n", "sem"),
-    desc = c("rate parameter", "mean", "standard deviation",
-             "variance", "number of samples", "standard error of the mean"),
-    value = c(lambda, mu, sigma, sigma2, n, sem))
-print(dd)
-
-```
+Stat | Description | Value
+---- | ----------- | -----
+lambda | rate parameter | `r lambda`
+mu | mean | `r mu`
+sigma | standard deviation | `r sigma`
+sigma2 | variance | `r sigma2`
+n | number of samples | `r n`
+sem | standard error of the mean | `r sem`
 
 ### Distribution of Sample
-Here I take a random sample of `r n * numsims` variables from the exponential distribution. These same values will be split later into `r numsims` groups of `r n` for multiple sample means to be taken, but here I plot the distribution of all of the sampled values.
-```{r expSample, echo = FALSE}
-set.seed(20150109)
-
-sample <- rexp(n * numsims, lambda)
-xbar <- sum(sample) / length(sample) # mean(sample)
-s2 <- sum( (sample - xbar)^2) / (length(sample) - 1) # var(sample)
-
-library(ggplot2)
-g1  <- ggplot(
-    data = data.frame(x = sample), aes(x = x)) +
-    geom_density(size = 2, alpha = 0.2, fill = "red") +
-    geom_vline(
-        size = 2,
-        alpha = 0.5,
-        xintercept = c(mu, xbar, sigma2, s2),
-        colour = c("red", "blue", "green4", "gold4"),
-        lty = c(1, 2, 1, 2)) +
-    annotate(
-        "text",
-        size = 4,
-        alpha = 0.8,
-        label = c(
-            paste0("Population Mean (", mu, ")"),
-            paste0("Sample\nMean\n(", round(xbar, 3), ")"),
-            paste0("Population Variance (", round(sigma2, 3), ")"),
-            paste0("Sample Variance (", round(s2, 3), ")")),
-        x = c(mu, xbar, sigma2, s2),
-        y = c(0.1, 0.05, 0.05, 0.03),
-        hjust = -c(
-            0.06, -1.06,
-            0.06,
-            -1.06),
-        colour = c("red", "blue", "green4", "gold4")) +
-    ggtitle(paste(
-        "Figure 1: Density of", length(sample),
-        "rexp variables (lambda=", lambda, ")")) +
-    labs(y = "Density") +
-    theme(plot.title = element_text(size = rel(1.5)))
-
-print(g1)
-
+Here I take a random sample of `r n * numsims` variables from the exponential distribution. These same values will be split later into `r numsims` groups of `r n` for multiple sample means to be taken, but here I plot the distribution of all of the sampled values along with the sample mean and variance and the population mean and variance
+```{r expSample, echo = FALSE, eval = TRUE}
+<<expSample>>
 ```
 Figure 1 demonstrates that the mean of this sample (`r xbar`) is very close to the theoretical mean of the whole population (`r mu`) and that the sample variance (`r s2`) is similarly very close to the population variance (`r sigma2`). The distribution of these random variables reflects very clearly the exponential distribution.
 
 ### Distribution of Sample Means
-I next split this sample of `r 40000` into `r numsims` groups of `r n` (n) and take the mean of each sample. I then plot the distribution of these sample means and compare its standard deviation with the population 'standard error of the mean' (sem); and also its mean with the population (theoretical) mean.
-```{r means, echo = FALSE}
-smp.means <- apply(matrix(sample, numsims), 1, mean)
-
-muxbar <- sum(smp.means) / numsims # mean(smp.means)
-s2xbar <- sum( (smp.means - muxbar)^2 ) / (numsims - 1) # var(smp.means)
-sxbar <- sqrt(s2xbar)
-
-g2 <- ggplot(data = data.frame(x = smp.means), aes(x = x)) +
-    geom_density(alpha = 0.2, size = 2, fill = "red") +
-    geom_vline(
-        size = 2, alpha = 0.5,
-        xintercept = c(
-            mu,
-            muxbar,
-            mu + c(1,-1)*sem,
-            muxbar + c(1,-1)*sxbar),
-        colour = c("red", "blue", "green4", "green4", "gold4", "gold4"),
-        lty = c(1, 2, 1, 1, 2, 2)) +
-    annotate(
-        "text",
-        size = 5,
-        alpha = 0.8,
-        x = c(
-            mu, muxbar, mu - sem,
-            muxbar + sxbar),
-        y = c(0.2, 0.3, 0.5, 0.1),
-        hjust = c(-0.06, 1.06, -0.06, 1.06),
-        colour = c("red", "blue", "green4", "gold4"),
-        label = c(
-            paste0("Population\nMean (", mu, ")"),
-            paste0("Mean of Sample\nMeans (", round(muxbar,3), ")"),
-            paste0("SEM\n(+/- ", round(sem,3), ")"),
-            paste0("SD of\nSample Means\n(+/- ", round(sxbar,3),")")))+
-    ggtitle(paste(
-        "Figure 2: Distribution of the means of", numsims, "samples of", n,
-        "\nrexp distribution variables (lambda=", lambda, ")")) +
-    labs(y = "Density") +
-    theme(plot.title = element_text(size = rel(1.5)))
-
-print(g2)
-
+I next split this sample of `r 40000` into `r numsims` groups of `r n` and take the mean of each sample. I then plot the distribution of these sample means and compare this distribution's standard deviation with the population 'standard error of the mean' (sem); and also its mean with the population mean.
+```{r means, echo = FALSE, eval = TRUE}
+<<expSampleMeans>>
 ```
 Whereas the sample of random exponential values followed the natural exponential distribution, Figure 2 shows that these sample means follow a normal distribution. It also shows that the mean of the sample means (`r muxbar`) is very close to the predicted population mean (`r mu`) and that the standard deviation of the sample means (`r sxbar`) is very close to the expected value, the standard error of the mean, or SEM (`r sem`).
 
 Note that the mean of all samples (xbar = `r xbar`) is identical to the mean of the sample means (muxbar = `r muxbar`).
 
 The standard deviation of sample means (`r sxbar`) is significantly smaller than the population standard deviation, sigma (`r sigma`). This will be because most of the variance of the randomly sampled data is essentially discarded when we take means of those sampled values.
+
+### Appendix
+
+#### Introduction Code
+```{r ap1, eval=FALSE, echo=TRUE}
+<<intro>>
+```
+#### Distribution of Sample Code
+```{r ap2, eval=FALSE, echo=TRUE}
+<<expSample>>
+```
+#### Distribution of Sample Means Code
+```{r ap3, eval=FALSE, echo=TRUE}
+<<expSampleMeans>>
+```
