@@ -31,6 +31,6 @@ g1  <- ggplot(
         "Figure 1: Density of", length(sample),
         "rexp variables (lambda=", lambda, ")")) +
     labs(y = "Density") +
-    theme(plot.title = element_text(size = rel(2)))
+    theme(plot.title = element_text(size = rel(1.5)))
 
 print(g1)

@@ -34,6 +34,6 @@ g2 <- ggplot(data = data.frame(x = smp.means), aes(x = x)) +
         "Figure 2: Distribution of the means of", numsims, "samples of", n,
         "\nrexp distribution variables (lambda=", lambda, ")")) +
     labs(y = "Density") +
-    theme(plot.title = element_text(size = rel(2)))
+    theme(plot.title = element_text(size = rel(1.5)))
 
 print(g2)

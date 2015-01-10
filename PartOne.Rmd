@@ -15,35 +15,27 @@ s <- 40
 ```
 
 ### Summary
-The objective of this analysis is to look at the variance and standard error of a simulation of numbers drawn at random from the exponential distribution. This distribution has a number of known properties of the theoretical total population, and this analysis will show that the statistical properties of the sample dataset are close to the expected values as predicted by the theoretical population properties.
+The objective of this analysis is to look at the mean, variance and standard error of a simulation of numbers drawn at random from the exponential distribution. This distribution has a number of known properties of the theoretical total population, and this analysis will show that the above statistical properties of the sample dataset are close to the expected values as predicted by the theoretical population's properties.
 
 ### Introduction
-The exponential distribution is defined by a 'rate parameter', known as 'lambda' (<math display="inline"><mo>&lambda;</mo></math>). This analysis will use a lambda value of `r lambda`.
+The exponential distribution is defined by a 'rate parameter', known as 'lambda' (<math display="inline"><mo>&lambda;</mo></math>). It has a mean of <math display="inline"><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></math> and its standard deviation is also <math display="inline"><mrow><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></math>, meaning its variance is <math display="inline"><msup><mfenced><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></mfenced><mn>2</mn></msup></math>. Finally its standard error of the mean, or 'SEM', is <math display="inline"><mfrac bevelled="true"><mrow><mo>&sigma;</mo></mrow><mrow><msqrt><mi>n</mi></msqrt></mrow></mfrac></math>, meaning that a distribution of the means of a number of samples of size *n* should have this standard distribution.
 
-It has a mean, or 'mu' (<math display="inline"><mo>&mu;</mo></math>), of <math display="inline"><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></math>.
+Below is a table of the variables used in this analysis, with their associated mathematical symbols, a description of what it represents and how they are calculated.:
 
-Its standard deviation, or 'sigma' (<math display="inline"><mo>&sigma;</mo></math>), is also <math display="inline"><mrow><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></math>, meaning its variance (<math display="inline"><msup><mo>&sigma;</mo><mn>2</mn></msup></math>) is <math display="inline"><msup><mfenced><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></mfenced><mn>2</mn></msup></math>.
-
-Finally its standard error of the mean, or 'SEM' (<math display="inline"><msub><mo>&sigma;</mo><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></math>), is <math display="inline"><mfrac bevelled="true"><mrow><mo>&sigma;</mo></mrow><mrow><msqrt><mi>n</mi></msqrt></mrow></mfrac></math>, meaning that a distribution of the means of a number of samples of size *n* should have this standard distribution.
-
-Below is a table of the variables used in this analysis, with their associated mathematical symbols and a description of what it represents:
-
-Variable Name | Mathematical Symbol | Description | Calculated As
-------------- | ------------------- | ----------- | -------------
-lambda | <math display="inline"><mo>&lambda;</mo></math> | rate parameter of the exponential distribution | n/a
+Variable  |  Symbol | Description | Calculated As
+--------- | ------- | ----------- | -------------
+lambda | <math display="inline"><mo>&lambda;</mo></math> | rate parameter of the exponential distribution |  This analysis will use a lambda value of `r lambda`
 mu | <math display="inline"><mo>&mu;</mo></math> | population mean | <math display="inline"><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></math>
 sigma | <math display="inline"><mo>&sigma;</mo></math> | population standard deviation | <math display="inline"><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></math>
-sigma2 | <math display="inline"><msup><mo>&sigma;</mo><mn>2</mn></msup></math> | population variance | <math display="inline"><msup><mfenced><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></mfenced><mn>2</mn></msup></math>
+sigma2 | <math display="inline"><msup><mo>&sigma;</mo><mn mathsize="small">2</mn></msup></math> | population variance | <math display="inline"><msup><mfenced><mfrac bevelled="true"><mrow><mn>1</mn></mrow><mrow><mo>&lambda;</mo></mrow></mfrac></mfenced><mn>2</mn></msup></math>
 sem | <math display="inline"><msub><mo>&sigma;</mo><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></math> | standard error of the mean (SEM) | <math display="inline"><mfrac bevelled="true"><mrow><mo>&sigma;</mo></mrow><mrow><msqrt><mi>n</mi></msqrt></mrow></mfrac></math>
-xbar | <math display="inline"><mover><mi>x</mi><mo>&OverBar;</mo></mover></math> | sample mean | <math display="inline"><mfrac><mrow><mn>1</mn></mrow><mrow><mi>n</mi></mrow></mfrac><mrow><munderover><mo>&Sigma;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>x</mi><mi>i</mi></msub></mrow></math>
-s2 | <math display="inline"><msup><mi>s</mi><mn>2</mn></msup></math> | sample variance | <math display="inline"><mfrac><mrow><mn>1</mn></mrow><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></mfrac><mrow><munderover><mo>&Sigma;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msup><mfenced><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>-</mo><mover><mi>x</mi><mo>&OverBar;</mo></mover></mrow></mfenced><mn>2</mn></msup></mrow></math>
-muxbar | <math display="inline"><msub><mo>&mu;</mo><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></math> | mean of sample means | <math display="inline"><mfrac><mrow><mn>1</mn></mrow><mrow><mi>s</mi></mrow></mfrac><mrow><munderover><mo>&Sigma;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>s</mi></munderover><msub><mover><mi>x</mi><mo>&OverBar;</mo></mover><mi>i</mi></msub></mrow><mtext>(where s is the number of simulations)</mtext></math>
-s2xbar | <math display="inline"><msubsup><mi>s</mi><mover><mi>x</mi><mo>&OverBar;</mo></mover><mn>2</mn></msubsup></math> | variance of sample means | <math display="inline"><mfrac><mrow><mn>1</mn></mrow><mrow><mi>s</mi><mo>-</mo><mn>1</mn></mrow></mfrac><mrow><munderover><mo>&Sigma;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>s</mi></munderover><msup><mfenced><mrow><msub><mover><mi>x</mi><mo>&OverBar;</mo></mover><mi>i</mi></msub><mo>-</mo><msub><mo>&mu;</mo><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></mrow></mfenced><mn>2</mn></msup></mrow><mtext>(where s is the number of simulations)</mtext></math>
-sxbar | <math display="inline"><msub><mi>s</mi><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></math> | standard deviation of sample means | <math display="inline"><msqrt><msubsup><mi>s</mi><mover><mi>x</mi><mo>&OverBar;</mo></mover><mn>2</mn></msubsup></msqrt></math>
+xbar | <math display="inline"><mover><mi>x</mi><mo>&OverBar;</mo></mover></math> | sample mean | <math display="inline"><mfrac><mrow><mn>1</mn></mrow><mrow><mi>n</mi></mrow></mfrac><mrow><munderover><mo>&Sigma;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>x</mi><mi>i</mi></msub></mrow><mspace linebreak="newline" /><mtext mathsize="small">(where x represents the sampled values)</mtext></math>
+s2 | <math display="inline"><msup><mi>s</mi><mn mathsize="small">2</mn></msup></math> | sample variance | <math display="inline"><mfrac><mrow><mn>1</mn></mrow><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></mfrac><mrow><munderover><mo>&Sigma;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msup><mfenced><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>-</mo><mover><mi>x</mi><mo>&OverBar;</mo></mover></mrow></mfenced><mn>2</mn></msup></mrow></math>
+muxbar | <math display="inline"><msub><mo>&mu;</mo><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></math> | mean of sample means | <math display="inline"><mfrac><mrow><mn>1</mn></mrow><mrow><mi>s</mi></mrow></mfrac><mrow><munderover><mo>&Sigma;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>s</mi></munderover><msub><mover><mi>x</mi><mo>&OverBar;</mo></mover><mi>i</mi></msub></mrow><mspace linebreak="newline" /><mtext mathsize="small">(where s is the number of simulations)</mtext></math>
+s2xbar | <math display="inline"><msubsup><mi>s</mi><mover><mi>x</mi><mo>&OverBar;</mo></mover><mn mathsize="small">2</mn></msubsup></math> | variance of sample means | <math display="inline"><mfrac><mrow><mn>1</mn></mrow><mrow><mi>s</mi><mo>-</mo><mn>1</mn></mrow></mfrac><mrow><munderover><mo>&Sigma;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>s</mi></munderover><msup><mfenced><mrow><msub><mover><mi>x</mi><mo>&OverBar;</mo></mover><mi>i</mi></msub><mo>-</mo><msub><mo>&mu;</mo><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></mrow></mfenced><mn>2</mn></msup></mrow><mspace linebreak="newline" /><mtext mathsize="small">(where s is the number of simulations)</mtext></math>
+sxbar | <math display="inline"><msub><mi>s</mi><mover><mi>x</mi><mo>&OverBar;</mo></mover></msub></math> | standard deviation of sample means | <math display="inline"><msqrt><msubsup><mi>s</mi><mover><mi>x</mi><mo>&OverBar;</mo></mover><mn mathsize="small">2</mn></msubsup></msqrt></math>
 
-
-### Simulation
-First I will set the rate parameter and the distribution's theoretical statistics:
+With lambda of 0.2, the distribution's theoretical statistics are:
 ```{r intro, echo = FALSE}
 lambda <- 0.2
 mu <- 1 / lambda
@@ -54,11 +46,13 @@ n <- 40             # size of each simulation
 numsims <- 1000     # number of simulations
 sem <- sigma / sqrt(n)
 ```
-```{r introOutput, echo=FALSE}
-d <- data.frame(
-    lambda = lambda, mu = mu, sigma = sigma, sigma2 = sigma2, n = n, sem = sem)
-print(matrix(
-    d, ncol=1, dimnames=list(colnames(d), c("value"))))
+```{r intro2, echo=FALSE}
+dd <- data.frame(
+    stat = c("lambda", "mu", "sigma", "sigma2", "n", "sem"),
+    desc = c("rate parameter", "mean", "standard deviation",
+             "variance", "number of samples", "standard error of the mean"),
+    value = c(lambda, mu, sigma, sigma2, n, sem))
+print(dd)
 
 ```
 
@@ -101,7 +95,7 @@ g1  <- ggplot(
         "Figure 1: Density of", length(sample),
         "rexp variables (lambda=", lambda, ")")) +
     labs(y = "Density") +
-    theme(plot.title = element_text(size = rel(2)))
+    theme(plot.title = element_text(size = rel(1.5)))
 
 print(g1)
 
@@ -109,7 +103,7 @@ print(g1)
 Figure 1 demonstrates that the mean of this sample (`r xbar`) is very close to the theoretical mean of the whole population (`r mu`) and that the sample variance (`r s2`) is similarly very close to the population variance (`r sigma2`). The distribution of these random variables reflects very clearly the exponential distribution.
 
 ### Distribution of Sample Means
-I next split this sample of `r 40000` into `r numsims` groups of `r n` (n) and take the mean of each sample. I then plot the distribution of these sample means and compare its standard deviation with the population 'standard error of the mean' (sem); and also its mean with the population theoretical mean.
+I next split this sample of `r 40000` into `r numsims` groups of `r n` (n) and take the mean of each sample. I then plot the distribution of these sample means and compare its standard deviation with the population 'standard error of the mean' (sem); and also its mean with the population (theoretical) mean.
 ```{r means, echo = FALSE}
 smp.means <- apply(matrix(sample, numsims), 1, mean)
 
@@ -147,12 +141,12 @@ g2 <- ggplot(data = data.frame(x = smp.means), aes(x = x)) +
         "Figure 2: Distribution of the means of", numsims, "samples of", n,
         "\nrexp distribution variables (lambda=", lambda, ")")) +
     labs(y = "Density") +
-    theme(plot.title = element_text(size = rel(2)))
+    theme(plot.title = element_text(size = rel(1.5)))
 
 print(g2)
 
 ```
-Whereas the sample of random exponential values followed the expected exponential distribution, figure 2 shows that these sample means follows a normal distribution. It also shows that the mean of the sample means (`r muxbar`) is very close to the population mean (`r mu`) and that the standard deviation of the sample means (`r sxbar`) is very close to the expected value, the standard error of the mean (`r sem`).
+Whereas the sample of random exponential values followed the natural exponential distribution, Figure 2 shows that these sample means follow a normal distribution. It also shows that the mean of the sample means (`r muxbar`) is very close to the predicted population mean (`r mu`) and that the standard deviation of the sample means (`r sxbar`) is very close to the expected value, the standard error of the mean, or SEM (`r sem`).
 
 Note that the mean of all samples (xbar = `r xbar`) is identical to the mean of the sample means (muxbar = `r muxbar`).
 
