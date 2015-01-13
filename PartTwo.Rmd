@@ -15,6 +15,7 @@ read_chunk("tgExplore1.R")
 read_chunk("tgExplore3.R")
 read_chunk("tgExplore4.R")
 read_chunk("tgExplore5.R")
+read_chunk("tgConfInt.R")
 ```
 ###Overview
 This is an analysis of the ToothGrowth dataset from the R Datasets package.
@@ -23,8 +24,8 @@ The ToothGrowth help page has the following description of the dataset:
 
 > The response is the length of odontoblasts (teeth) in each of 10 guinea pigs at each of three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods (orange juice or ascorbic acid).
 
-### First look
-So this dataset should consist of 60 observations (10 subjects * 3 doses * 2 delivery methods)
+### Data cleaning
+The dataset documentation suggests that this dataset should consist of 60 observations (10 subjects * 3 doses * 2 delivery methods)
 
 ```{r intro}
 <<ggInit>>
@@ -33,7 +34,7 @@ So this dataset should consist of 60 observations (10 subjects * 3 doses * 2 del
 
 From this I can see that tooth length is a continuous variable named `len`; delivery method is a factor variable named `supp` with levels `OJ` and `VC`; and the dose level is a numeric variable named `dose`. Given that dose represents three dose levels, this would be better as a factor.
 
-The `supp` variable represents two delivery methods of Vitamin C, being orange juice and asorbic acide. However the levels are named 'OJ' and 'VC'. Presumably VC represents Ascorbic Acid. For clarity, I will rename the levels in this variable.
+The `supp` variable represents two delivery methods of Vitamin C, being orange juice and asorbic acid. However the levels are named 'OJ' and 'VC'. Presumably VC represents Ascorbic Acid. For clarity, I will rename the levels in this variable.
 ```{r clean, echo = TRUE}
 <<tgClean>>
 ```
@@ -47,7 +48,7 @@ A check on the number of nulls in the dataset shows that there are none:
 
 ### Exploratory Plots
 First I plot the distribution of the tooth length variable by supplement:
-```{r explore1}
+```{r tgExplore1}
 <<tgExplore1>>
 ```
 Figure 1 shows that the mean tooth length is greater with the Orange Juice supplement than with the Ascorbic Acid. However, despite having a lower mean, the Ascorbic Acid sample has a greater variance, demonstrated by a larger standard distribution.
@@ -56,23 +57,50 @@ Having looked at how the supplement affects the tooth length distribution, I wil
 ```{r explore3}
 <<tgExplore3>>
 ```
-Figure 3 shows that a higher dose of supplement results in a 
+Figure 3 shows that a higher dose of supplement results in a longer tooth length.
+
+
 ```{r explore4}
 <<tgExplore4>>
 ```
 
-```{r explore5}
-<<tgExplore5>>
+```{r ci1}
+<<ci1>>
+```
+
+```{r ci2}
+<<ci2>>
 ```
 
 ### Appendix
-
+Initialise ggplot parameters:
 ```{r ap1, eval = FALSE, echo = TRUE}
 <<ggInit>>
+```
+Introduction:
+```{r ap2, eval = FALSE, echo = TRUE}
 <<tgIntro>>
+```
+Clean data:
+```{r ap3, eval = FALSE, echo = TRUE}
 <<tgClean>>
+```
+Figure 1:
+```{r ap4, eval = FALSE, echo = TRUE}
 <<tgExplore1>>
+```
+Figure 3:
+```{r ap5, eval = FALSE, echo = TRUE}
 <<tgExplore3>>
+```
+Figure 4:
+```{r ap6, eval = FALSE, echo = TRUE}
 <<tgExplore4>>
-<<tgExplore5>>
+```
+Confidence Intervals
+```{r ap7, eval = FALSE, echo = TRUE}
+<<ci1>>
+```
+```{r ap8, eval = FALSE, echo = TRUE}
+<<ci2>>
 ```

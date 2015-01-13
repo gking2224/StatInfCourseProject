@@ -1,6 +1,4 @@
-## @knitr explore1
-library(ggplot2)
-
+## @knitr tgExplore1
 means <- with(ToothGrowth, tapply(len, supp, mean))
 sds <- with(ToothGrowth, tapply(len, supp, sd))
 colours <- c(col1, col2)
