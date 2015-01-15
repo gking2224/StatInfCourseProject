@@ -53,6 +53,10 @@ First I plot the distribution of the tooth length variable by supplement:
 ```
 Figure 1 shows that the mean tooth length is greater with the Orange Juice supplement than with the Ascorbic Acid. However, despite having a lower mean, the Ascorbic Acid sample has a greater variance, demonstrated by a larger standard distribution.
 
+*** Orange Juice skewed to the right.
+
+*** Neither distribution can be truly normal, as there is a natural cut-off at zero - tooth length cannot be negative.
+
 Having looked at how the supplement affects the tooth length distribution, I will now look at the effect that the supplement dose has.
 ```{r explore3}
 <<tgExplore3>>
@@ -71,7 +75,18 @@ Figure 3 shows that a higher dose of supplement results in a longer tooth length
 ```{r ci2}
 <<ci2>>
 ```
-Assumes sample subjects are representative of the population.
+95% T Confidence interval of the mean increase in length using supplement Orange Juice rather than Ascorbic Acid:
+```{r ci3}
+<<ci3>>
+```
+95% T Confidence interval of the mean increase in length using 2.0mg of Vitamin C rather than 0.5mg:
+```{r ci4}
+<<ci4>>
+```
+95% T Confidence interval of the mean increase in length using 2.0mg of Vitamin C delivered by Orange Juice rather than 0.5mg of Vitamin C delivered by Ascorbic Acid:
+```{r ci5}
+<<ci5>>
+```
 
 ### Appendix
 Initialise ggplot parameters:
@@ -104,4 +119,13 @@ Confidence Intervals
 ```
 ```{r ap8, eval = FALSE, echo = TRUE}
 <<ci2>>
+```
+```{r ap9, eval = FALSE, echo = TRUE}
+<<ci3>>
+```
+```{r ap10, eval = FALSE, echo = TRUE}
+<<ci4>>
+```
+```{r ap11, eval = FALSE, echo = TRUE}
+<<ci5>>
 ```

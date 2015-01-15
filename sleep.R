@@ -1,0 +1,5 @@
+data(sleep)
+g <- ggplot(data = sleep, aes(x = group, y = extra, group = factor(ID)))
+g <- g + geom_line(aes(colour = ID))
+g <- g + geom_point(size =8, pch = 21, fill = "salmon", alpha = .5)
+print(g)
