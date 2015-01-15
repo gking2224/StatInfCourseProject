@@ -10,7 +10,7 @@ sxbar <- sqrt(s2xbar)
 
 ## @knitr expSampleMeansPlot
 # population normal distribution sd values to plot
-nd.sd <- seq(mu-sem*3, mu+sem*3, by=((sem*6)/999))
+nd.sd <- seq(mu-sem*3, mu+sem*3, length = 1000)
 # normal distribution density values
 nd <- dnorm(nd.sd, mean = mu, sd = sem)
 
