@@ -66,9 +66,14 @@ print(g)
 
 
 ## @knitr ci6
-m1 <- mean(d1aa)
-m2 <- mean(d2oj)
-n1 <- length(d1aa)
-n2 <- length(d2oj)
+g1 <- d1aa
+g2 <- d2oj
+m1 <- mean(g1)
+m2 <- mean(g2)
+n1 <- length(g1)
+n2 <- length(g2)
 
-m2 - m1 + c(-1,1) * qt(0.975, df = (n1 + n2 - 2)) * Sp * (1/n1 + 1/n2)^(0.5)5 *
+# pooled variance
+Sp2 <- ((n1 - 1)*var(g1) + (n2 - 1)*var(g2)) / (n1 + n2 - 2)
+
+m2 - m1 + c(-1,1) * qt(0.975, df = (n1 + n2 - 2)) * sqrt(Sp2) * (1/n1 + 1/n2)^(0.5)
