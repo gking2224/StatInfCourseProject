@@ -63,3 +63,12 @@ d <- data.frame(y = dnorm(dvals, mean = mean(ci5), sd = sqrt(ps2)), x = dvals)
 g <- ggplot(d, aes(x = x, y = y)) + geom_line()
 g <- g + geom_vline(xintercept = ci5, lty = 2)
 print(g)
+
+
+## @knitr ci6
+m1 <- mean(d1aa)
+m2 <- mean(d2oj)
+n1 <- length(d1aa)
+n2 <- length(d2oj)
+
+m2 - m1 + c(-1,1) * qt(0.975, df = (n1 + n2 - 2)) * Sp * (1/n1 + 1/n2)^(0.5)5 *

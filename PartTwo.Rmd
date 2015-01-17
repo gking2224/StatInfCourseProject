@@ -39,7 +39,7 @@ The `supp` variable represents two delivery methods of Vitamin C, being orange j
 <<tgClean>>
 ```
 
-It should be noted that the ten subjects are not identified in the dataset. This means that the data cannot be paired.
+It should be noted that the ten subjects are not identified in the dataset. I will assume that the data is not paired.
 
 A check on the number of nulls in the dataset shows that there are none:
 ```{r intro2, echo = TRUE}
@@ -63,6 +63,7 @@ Having looked at how the supplement affects the tooth length distribution, I wil
 ```
 Figure 3 shows that a higher dose of supplement results in a longer tooth length.
 
+Although there is a small amount of skew in some of the subsets of the data, I don't think this invalidates the use of *t* interval.
 
 ```{r explore4}
 <<tgExplore4>>

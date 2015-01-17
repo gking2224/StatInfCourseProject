@@ -10,7 +10,7 @@ myplot <- function(df) {
 }
 manipulate(myplot(mu), mu = slider(1, 20, step = 1))
 
-pvals <- seq(.5, .99, by = 0.01)
+pvals <- seq(0.5, .99, by = 0.01)
 myplot2 <- function(df) {
     d <- data.frame(n = qnorm(pvals),
                     t = qt(pvals, df))
