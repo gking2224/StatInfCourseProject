@@ -1,0 +1,56 @@
+---
+title: "Independent Group Standard Error of the Mean"
+author: "Graham King"
+date: "17 January 2015"
+output: html_document
+---
+
+## Standard Error of the Mean
+The formula for calculating Standard Error of the Mean (SEM) is:
+
+<math><mfrac bevelled="true"><mrow><mo>&sigma;</mo></mrow><mrow><msqrt><mi>n</mi></msqrt></mrow></mfrac></math>
+
+This can be expressed mathematically in the following different ways, all of which are identical:
+
+(1) <math><msqrt><mfrac><mrow><msup><mo>&sigma;</mo><mn>2</mn></msup></mrow><mrow><mi>n</mi></mrow></mfrac></msqrt></math>
+
+(2) <math><mo>&sigma;</mo><msup><mfenced><mfrac><mrow><mn>1</mn></mrow><mrow><mi>n</mi></mrow></mfenced><mn>0.5</mn></msup></math>
+
+(3) <math><msup><mfenced separators="."><msup><mo>&sigma;</mo><mn>2</mn></msup><mfrac><mrow><mn>1</mn></mrow><mrow><mi>n</mi></mrow></mfrac></mfenced><mn>0.5</mn></msup></math>
+
+(4) <math><msup><mfenced><mfrac><mrow><msup><mo>&sigma;</mo><mn>2</mn></msup></mrow><mrow><mi>n</mi></mrow></mfrac></mfenced><mn>0.5</mn></msup></math>
+
+## SEM of independent groups of samples
+In calculating the SEM of independent groups of samples, <math display="inline"><mi>n</mi></math> is split into two groups, <math display="inline"><mi>x</mi></math> and <math display="inline"><mi>y</mi></math>. Where these groups have unequal variance, the variance <math><msup><mi>s</mi><mn>2</mn></msup></math> is also split into 2 groups, <math display="inline"><mi>x</mi></math> and <math display="inline"><mi>y</mi></math>.
+
+#### Unequal variance
+The SEM for independent groups with unequal variance is:
+
+<math><msup><mfenced separators="+"><mfrac><mrow><msubsup><mi>S</mi><mi>x</mi><mn>2</mn></msubsup></mrow><mrow><msub><mi>n</mi><mi>x</mi></msub></mrow></mfrac><mfrac><mrow><msubsup><mo>S</mo><mi>y</mi><mn>2</mn></msubsup></mrow><msub><mi>n</mi><mi>y</mi></msub><mrow></mrow></mfrac></mfenced><mn>0.5</mn></msup></math>
+
+This corresponds to the SEM above displayed as (4)
+
+#### Equal variance
+The SEM for independent groups with equal variance uses a weighted, 'pooled' variance:
+
+<math><msubsup><mi>S</mi><mi>p</mi><mn>2</mn></msubsup><mo>=</mo>
+<mfenced separators="">
+<mfenced separators="-">
+<msub><mi>n</mi><mi>x</mi></msub><mn>1</mn>
+</mfenced>
+<msubsup><mi>S</mi><mi>x</mi><mn>2</mn></msubsup>
+<mo>+</mo>
+<mfenced separators="-">
+<msub><mi>n</mi><mi>y</mi></msub><mn>1</mn>
+</mfenced>
+<msubsup><mi>S</mi><mi>y</mi><mn>2</mn></msubsup>
+</mfenced>
+<mo>/</mo>
+<mfenced><mrow><msub><mi>n</mi><mi>x</mi></msub><mo>+</mo><msub><mi>n</mi><mi>y</mi></msub><mo>-</mo><mn>2</mn></mrow></mfenced>
+</math>
+
+The square root of this is the pooled, estimated standard variance used in the calculation of the SEM:
+
+<math><msub><mi>S</mi><mi>p</mi></msub><msup><mfenced separators="+"><mfrac><mrow><mn>1</mn></mrow><mrow><msub><mi>n</mi><mi>x</mi></msub></mrow></mfrac><mfrac><mrow><mn>1</mn></mrow><mrow><msub><mi>n</mi><mi>y</mi></msub></mrow></mfrac></mfenced><mn>0.5</mn></math>
+
+This corresponds to the SEM above displayed as (2)
