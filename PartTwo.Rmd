@@ -69,10 +69,12 @@ Although there is a small amount of skew in some of the subsets of the data, I d
 <<tgExplore4>>
 ```
 
+Mean tooth length for each supplement type will fall between below lower and upper limits, with 95% confidence interval:
 ```{r ci1}
 <<ci1>>
 ```
 
+Mean tooth length for each dose will fall between below lower and upper limits, with 95% confidence interval:
 ```{r ci2}
 <<ci2>>
 ```

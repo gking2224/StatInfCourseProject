@@ -1,8 +1,9 @@
 ## @knitr ci1
+# split data by supplement, apply 95% T confidence interval on the mean of each subset
 ci1 <- round(
     sapply(c("Orange Juice", "Ascorbic Acid"),
            function(s) {
-               x <- ToothGrowth$len[ToothGrowth$supp==s];
+               x <- ToothGrowth$len[ToothGrowth$supp==s]
                mean(x) + c(-1, 1) * qnorm(0.975) * sd(x)
             }
     ), 2)
@@ -10,6 +11,7 @@ rownames(ci1) <- c("Lower Limit", "Upper Limit")
 print(ci1)
 
 ## @knitr ci2
+# split data by dose, apply 95% T confidence interval on the mean of each subset
 ci2 <- round(
     sapply(c("0.5", "1", "2"),
            function(d) {
@@ -26,6 +28,7 @@ aa <- ToothGrowth[ToothGrowth$supp == "Ascorbic Acid","len"]
 oj <- ToothGrowth[ToothGrowth$supp == "Orange Juice", "len"]
 diff <- oj - aa
 mn <- mean(diff)
+print(mn)
 s <- sd(diff)
 n <- 30
 ci3 <- mn + c(-1,1)*qt(0.975, df = n - 1)* s / sqrt(n)
@@ -44,6 +47,7 @@ print(ci4)
 
 
 ## @knitr ci5
+
 d1aa <- ToothGrowth[ToothGrowth$dose == 0.5 &
                         ToothGrowth$supp == "Ascorbic Acid","len"]
 d2oj <- ToothGrowth[ToothGrowth$dose == 2.0 &
@@ -72,8 +76,8 @@ m1 <- mean(g1)
 m2 <- mean(g2)
 n1 <- length(g1)
 n2 <- length(g2)
+diff <- m2 - m1
 
-# pooled variance
-Sp2 <- ((n1 - 1)*var(g1) + (n2 - 1)*var(g2)) / (n1 + n2 - 2)
-
-m2 - m1 + c(-1,1) * qt(0.975, df = (n1 + n2 - 2)) * sqrt(Sp2) * (1/n1 + 1/n2)^(0.5)
+# pooled standard deviation
+sp <- sqrt( ((n1 - 1)*var(g1) + (n2 - 1)*var(g2)) / (n1 + n2 - 2) )
+diff + c(-1,1) * qt(0.975, df = (n1 + n2 - 2)) * sp * (1/n1 + 1/n2)^(0.5)
