@@ -69,15 +69,15 @@ g <- g + geom_vline(xintercept = ci5, lty = 2)
 print(g)
 
 
-## @knitr ci6
-g1 <- d1aa
-g2 <- d2oj
-m1 <- mean(g1)
-m2 <- mean(g2)
-n1 <- length(g1)
-n2 <- length(g2)
-diff <- m2 - m1
-
-# pooled standard deviation
-sp <- sqrt( ((n1 - 1)*var(g1) + (n2 - 1)*var(g2)) / (n1 + n2 - 2) )
-diff + c(-1,1) * qt(0.975, df = (n1 + n2 - 2)) * sp * (1/n1 + 1/n2)^(0.5)
+# ## @knitr ci6
+# g1 <- d1aa
+# g2 <- d2oj
+# m1 <- mean(g1)
+# m2 <- mean(g2)
+# n1 <- length(g1)
+# n2 <- length(g2)
+# diff <- m2 - m1
+# 
+# # pooled standard deviation
+# sp <- sqrt( ((n1 - 1)*var(g1) + (n2 - 1)*var(g2)) / (n1 + n2 - 2) )
+# diff + c(-1,1) * qt(0.975, df = (n1 + n2 - 2)) * sp * (1/n1 + 1/n2)^(0.5)

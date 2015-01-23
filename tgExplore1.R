@@ -14,19 +14,17 @@ g1 <- ggplot(
     geom_vline(
         size = lineWidth,
         alpha = lineAlpha,
-        xintercept = c(means, means + sds, means - sds),
-        colour = rep(colours, times=3),
-        lty = rep(c(1, 2), c(2,4))) +
+        xintercept = c(means, means + sds),
+        colour = rep(colours, times=2),
+        lty = rep(c(1, 2), c(2,2))) +
     annotate("text", size = annotationTextSize,
-             label = rep(c(
-                            paste0("Mean\n(", round(means, 2), ")"),
-                            paste0("+1 sd\n(",round(sds,2),")"),
-                            "-1 sd"),
-                         c(1, 1, 1, 1, 2)),
-             x = c(means, means + sds, means - sds),
-             y = rep(c(0.05, 0.06), times=3),
+             label = c(
+                 paste0("Mean\n(", round(means, 2), ")"),
+                 paste0("+1 sd\n(",round(sds,2),")")),
+             x = c(means, means + sds),
+             y = rep(c(0.05, 0.06), times=2),
              hjust = 1.08,
              alpha = textAlpha,
-             colour = rep(colours, times=3))
+             colour = rep(colours, times=2))
     
 print(g1)
