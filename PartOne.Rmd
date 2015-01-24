@@ -1,7 +1,7 @@
 ---
 title: "Analysis of the Statistical Properties of the Exponential Distribution"
 author: "Graham King"
-date: "10 January 2015"
+date: "24 January 2015"
 output:
   html_document:
     css: report.css
@@ -9,7 +9,7 @@ output:
 ```{r opts, echo = FALSE}
 library(knitr)
 library(markdown)
-opts_chunk$set(comment = NA, fig.width = 12, fig.height = 6)
+opts_chunk$set(comment = NA, fig.width = 12, fig.height = 8)
 options(scipen = 999)
 
 read_chunk("ggInit.R")
@@ -72,6 +72,7 @@ These same sampled values will be split later into `r numsims` groups of `r n` f
 ```{r expSamplePlot, echo = FALSE, eval = TRUE}
 <<expSamplePlot>>
 ```
+
 Figure 1 demonstrates that the mean of this sample (`r xbar`) is very close to the theoretical mean of the whole population (`r mu`) and that the sample variance (`r s2`) is similarly very close to the population variance (`r sigma2`). The distribution of these random variables reflects very clearly the exponential distribution, as shown by overlaying the true exponential distribution density, <math display="inline"><mi>exp</mi><mfenced><mo>&lambda;</mo></mfenced></math>.
 
 ### Distribution of Sample Means
@@ -89,6 +90,7 @@ I then plot the distribution of these sample means together with their mean and 
 ```{r expSampleMeansPlot, echo = FALSE, eval = TRUE}
 <<expSampleMeansPlot>>
 ```
+
 Whereas the sample of random exponential values followed the natural exponential distribution, Figure 2 shows that these sample means follow a normal distribution. This is shown clearly by overlaying normal distribution <math display="inline"><mi>N</mi><mfenced><mo>&mu;</mo><mfrac bevelled="true"><mrow><msup><mo>&sigma;</mo><mn>2</mn></msup></mrow><mrow><mi>n</mi></mrow></mfrac></mfenced></math>; that is to say, the normal distribution with mean equal to the population mean (<math display="inline"><mo>&mu;</mo></math>) and standard deviation equal to the population standard error of the mean (i.e. variance = <math display="inline"><mfrac bevelled="true"><mrow><msup><mo>&sigma;</mo><mn>2</mn></msup></mrow><mrow><mi>n</mi></mrow></mfrac></math>).
 
 Figure 2 also shows that the mean of the sample means (`r muxbar`) is very close to the predicted population mean (`r mu`) and that the standard deviation of the sample means (`r sxbar`) is very close to the predicated standard error of the mean (`r sem`).
@@ -96,6 +98,8 @@ Figure 2 also shows that the mean of the sample means (`r muxbar`) is very close
 Note that the mean of all samples (xbar = `r xbar`) is identical to the mean of the sample means (muxbar = `r muxbar`).
 
 The standard deviation of sample means (`r sxbar`) is significantly smaller than the population standard deviation, sigma (`r sigma`). This will be because most of the variance of the randomly sampled data is essentially discarded when we use only the means of those sampled values.
+
+***
 
 ### Appendix
 

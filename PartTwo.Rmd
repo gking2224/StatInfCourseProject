@@ -1,20 +1,20 @@
 ---
 title: "Exploratory Analysis of the ToothGrowth dataset"
 author: "Graham King"
-date: "9 January 2015"
-output: html_document
+date: "24 January 2015"
+output:
+  html_document:
+    css: report.css
 ---
 ```{r opts, echo=FALSE}
 library(knitr)
-opts_chunk$set(comment = NA, fig.width = 12, fig.height = 6, echo = FALSE)
+opts_chunk$set(comment = NA, fig.width = 12, fig.height = 6, echo = FALSE, size = 'small')
 
 read_chunk("ggInit.R")
 read_chunk("tgIntro.R")
 read_chunk("tgClean.R")
 read_chunk("tgExplore1.R")
 read_chunk("tgExplore3.R")
-read_chunk("tgExplore4.R")
-read_chunk("tgExplore5.R")
 read_chunk("tgConfInt.R")
 ```
 ###Overview
@@ -39,8 +39,6 @@ The `supp` variable represents two delivery methods of Vitamin C, being orange j
 <<tgClean>>
 ```
 
-It should be noted that the ten subjects are not identified in the dataset. I will assume that the data is not paired.
-
 A check on the number of nulls in the dataset shows that there are none:
 ```{r intro2, echo = TRUE}
 <<tgIntro2>>
@@ -51,46 +49,58 @@ First I plot the distribution of the tooth length variable by supplement:
 ```{r tgExplore1}
 <<tgExplore1>>
 ```
+
 Figure 1 shows that the mean tooth length is greater with the Orange Juice supplement than with the Ascorbic Acid. However, despite having a lower mean, the Ascorbic Acid sample has a greater variance, demonstrated by a larger standard distribution.
 
 Having looked at how the supplement affects the tooth length distribution, I will now look at the effect that the supplement dose has.
 ```{r explore3}
 <<tgExplore3>>
 ```
-Figure 3 shows that a higher dose of supplement results in a longer tooth length.
 
-Although there is a small amount of skew in some of the subsets of the data, I will assume that this is not enought to invalidate the use of *t* interval.
+Figure 2 shows that a higher dose of supplement results in a longer tooth length.
 
-```{r explore4}
-<<tgExplore4>>
-```
-Figure 4 shows that the Vitamin C dose has an impact with both of the supplements used, although it is more marked in the Ascorbic Acid subset.
-
-The combination of these plots shows that the impact on tooth length is more reliably observed from the sample data in 0.5mg doses of Ascorbic Acid (shorter tooth length) and 2mg doses of Orange Juice (longer tooth length).
+The distributions are all approximately normal (i.e. identically distributed) although with a small amount of skew in some of the subsets of the data. I will assume that this is not enought to invalidate the use of *t* interval. I also assume that the values sampled are independent. This also means that I assume that the data is not paired, an assumption that is supported by the lack of subject identifier in the dataset.
 
 ### Confidence Intervals
+```{r cifunction}
+<<cifunction>>
+```
+The mean tooth length for each supplement type will fall between below lower and upper limits in 95% of samples of a similar size.
 
-Mean tooth length for each supplement type will fall between below lower and upper limits, with 95% confidence interval:
+#### Confidence Interval 1
 ```{r ci1}
 <<ci1>>
 ```
 
-Mean tooth length for each dose will fall between below lower and upper limits, with 95% confidence interval:
+The mean tooth length for each dose will fall between below lower and upper limits in 95% of samples of a similar size:
+
+#### Confidence Interval 2
 ```{r ci2}
 <<ci2>>
 ```
-95% T Confidence interval of the mean increase in length using supplement Orange Juice rather than Ascorbic Acid:
+
+The following t confidence interval shows the that the mean increase in tooth length length using supplement Orange Juice rather than Ascorbic Acid will be within the given range in 95% of samples of a similar size:
+
+#### Confidence Interval 3
 ```{r ci3}
 <<ci3>>
 ```
-95% T Confidence interval of the mean increase in length using 2.0mg of Vitamin C rather than 0.5mg:
+This small increase is also reflected in the close means and large overlap of the subsets of data seen in Figure 1. A greater difference can be seen by looking at the smaller dose against the larger dose. The following t confidence interval shows that the mean increase in tooth length with a 2.0mg dose rather than a 0.5mg dose will be within the given range in 95% of samples of a similar size:
+
+#### Confidence Interval 4
 ```{r ci4}
 <<ci4>>
 ```
-95% T Confidence interval of the mean increase in length using 2.0mg of Vitamin C delivered by Orange Juice rather than 0.5mg of Vitamin C delivered by Ascorbic Acid:
+This is also reflected in the difference between the means of 0.5mg and 2.0mg in Figure 2.
+
+However, the greatest difference can be seen when comparing 0.5mg of the least effective supplement (Ascorbic Acid) with 2.0mg of Orange Juice. The following t confidence interval shows that the mean increase in tooth length with a 2.0mg dose of Orange Juice rather than a 0.5mg dose of Ascorbic Acide will be between the given range in 95% of samples of a similar size.:
+
+#### Confidence Interval 5
 ```{r ci5}
 <<ci5>>
 ```
+
+****
 
 ### Appendix
 Initialise ggplot parameters:
@@ -109,27 +119,30 @@ Figure 1:
 ```{r ap4, eval = FALSE, echo = TRUE}
 <<tgExplore1>>
 ```
-Figure 3:
+Figure 2:
 ```{r ap5, eval = FALSE, echo = TRUE}
 <<tgExplore3>>
 ```
-Figure 4:
-```{r ap6, eval = FALSE, echo = TRUE}
-<<tgExplore4>>
-```
-Confidence Intervals
+Confidence Interval 1:
 ```{r ap7, eval = FALSE, echo = TRUE}
 <<ci1>>
 ```
+Confidence Interval 2:
 ```{r ap8, eval = FALSE, echo = TRUE}
 <<ci2>>
 ```
+```{r ap8a, eval = FALSE, echo = TRUE}
+<<cifunction>>
+```
+Confidence Interval 3:
 ```{r ap9, eval = FALSE, echo = TRUE}
 <<ci3>>
 ```
+Confidence Interval 4:
 ```{r ap10, eval = FALSE, echo = TRUE}
 <<ci4>>
 ```
+Confidence Interval 5:
 ```{r ap11, eval = FALSE, echo = TRUE}
 <<ci5>>
 ```

@@ -23,21 +23,17 @@ library(ggplot2)
 g1  <- ggplot(
         data = data.frame(x = sample,
                           nd = ed,
-                          y = ed.sd),
-        aes(x = x)) +
+                          y = ed.sd), aes(x = x)) +
     geom_density(size = lineWidth, alpha = 0.2, fill = col1) +
     geom_line(alpha = 1, size = 1, colour = col5,
               lty = 9, aes(x = ed.sd, y = ed)) +
     geom_vline(
-        size = lineWidth,
-        alpha = lineAlpha,
+        size = lineWidth, alpha = lineAlpha,
         xintercept = c(mu, xbar, sigma2, s2),
-        colour = c(col1, col2, col3, col4),
-        lty = c(1, 2, 1, 2)) +
+        colour = c(col1, col2, col3, col4), lty = c(1, 2, 1, 2)) +
     annotate(
         "text",
-        size = annotationTextSize,
-        alpha = textAlpha,
+        size = annotationTextSize, alpha = textAlpha,
         label = c(
             paste0("Population Mean (", mu, ")"),
             paste0("Sample\nMean\n(", round(xbar, 3), ")"),
@@ -48,14 +44,9 @@ g1  <- ggplot(
         hjust = c(-0.06, 1.06, -0.06, 1.06),
         colour = c(col1, col2, col3, col4)) +
     annotate(
-        "text",
-        size = annotationTextSize,
-        alpha = textAlpha, parse = TRUE,
-        label = "exp(lambda)",
-        x = 0.5,
-        y = dexp(0.5, rate = lambda),
-        hjust = -0.06,
-        colour = col5) +
+        "text", size = annotationTextSize,
+        alpha = textAlpha, parse = TRUE, label = "exp(lambda)",
+        x = 0.5, y = dexp(0.5, rate = lambda), hjust = -0.06, colour = col5) +
     ggtitle(paste(
         "Figure 1: Density of", length(sample),
         "rexp variables (lambda=", lambda, ")")) +

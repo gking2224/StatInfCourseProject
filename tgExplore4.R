@@ -10,6 +10,6 @@ g4 <- ggplot(data=ToothGrowth, aes(x = len, fill = dose)) +
     geom_vline(aes(xintercept=mean + sd, colour = dose), vline.data, lty = 2) +
     labs(x="Tooth length", y="Density") +
     guides(fill = guide_legend(title="Dose (mg)")) +
-    ggtitle("Figure 4: Distribution of tooth length by Dose and Supplement") +
+    ggtitle("Figure 3: Distribution of tooth length by Dose and Supplement") +
     theme(plot.title = element_text(size = titleSize))
 print(g4)

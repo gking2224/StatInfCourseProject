@@ -17,9 +17,7 @@ nd <- dnorm(nd.sd, mean = mu, sd = sem)
 # make a plot of the sample means, with their mean and standard deviation
 # overlayed together with the population normal distribution
 g2 <- ggplot(
-        data = data.frame(x = smp.means, 
-                          nd = nd,
-                          y = nd.sd)) +
+        data = data.frame(x = smp.means, nd = nd, y = nd.sd)) +
     geom_density(alpha = fillAlpha, size = lineWidth, fill = col1, aes(x = x)) +
     geom_line(alpha = 1, size = lineWidth, colour = col5,
               lty = 9, aes(x = nd.sd, y = nd)) +
@@ -31,32 +29,19 @@ g2 <- ggplot(
                        paste0(round(n, 3), " (population mean)"),
                        paste0(round(n, 3), "\n(", ifelse(s>0,"+",""), s, "sem)"))
             },
-            seq(mu-sem*3, mu+sem*3, by = sem),
-            -3:3)) +
+            seq(mu-sem*3, mu+sem*3, by = sem), -3:3)) +
     geom_vline(
-        size = lineWidth,
-        alpha = lineAlpha,
-        xintercept = c(
-            muxbar,
-            muxbar + c(1,-1) * sxbar),
-        colour = c(col2, col3, col3),
-        lty = 2) +
+        size = lineWidth, alpha = lineAlpha,
+        xintercept = c(muxbar, muxbar + c(1,-1) * sxbar),
+        colour = c(col2, col3, col3), lty = 2) +
     annotate(
-        "text",
-        size = annotationTextSize,
-        alpha = textAlpha,
-        x = 5.9,
-        y = dnorm(5.9, mean = mu, sd = sem),
-        hjust = -0.06,
-        colour = col5, parse = TRUE,
-        label = "~N(mu,~sigma^2/n)") +
+        "text", size = annotationTextSize, alpha = textAlpha,
+        x = 5.9, y = dnorm(5.9, mean = mu, sd = sem),
+        hjust = -0.06, colour = col5, parse = TRUE, label = "~N(mu,~sigma^2/n)") +
     annotate(
-        "text",
-        size = annotationTextSize,
-        alpha = textAlpha,
+        "text", size = annotationTextSize, alpha = textAlpha,
         x = c(muxbar, muxbar + sxbar, muxbar - sxbar),
-        y = c(0.3, 0.5, 0.5),
-        hjust = c(1.06, -0.06, 1.06),
+        y = c(0.3, 0.5, 0.5), hjust = c(1.06, -0.06, 1.06),
         colour = c(col2, col3, col3),
         label = c(
             paste0("Mean of\nSample Means\n(", round(muxbar, 3), ")"),
