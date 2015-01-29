@@ -1,0 +1,1 @@
+pbinom(3-1, 4, prob = 0.5, lower.tail = FALSE)
