@@ -1,4 +1,4 @@
-x1 <- c(140,138,150,148,135)
+x1 <- c(140, 138, 150, 148, 135)
 x2 <- c(132, 135, 151, 146, 130)
 n <- 5
 diffs <- x2 - x1
@@ -9,4 +9,10 @@ sem <- s / sqrt(n)
 mu0 <- 0
 pval <- pt((xbar - mu0)/sem, df = n-1)
 print(round(pval, 3))
+
+xbar + c(-1, 1) * qt(.975, n-1) * sem
+t.test(x2, x1, paired = TRUE)
+
+
 rm(x1, x2, n, diffs, xbar, s, sem, mu0, pval)
+

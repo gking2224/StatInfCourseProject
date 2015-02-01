@@ -7,4 +7,4 @@ n1 <- 9
 
 sp <- sqrt(( (n0-1 * s0^2) + (n1-1 * s1^2) ) / (n0 + n1 - 2))
 
-pt((diff1 - diff0), df = 16)
+pt((diff1 - diff0), df = n0 + n1 - 2)

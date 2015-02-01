@@ -1,0 +1,1 @@
+round(ppois(10, lambda = 1787/100, lower.tail = TRUE), 2)
